@@ -13,45 +13,47 @@ class Pimpled extends WireData implements Module
     {
         return array(
             'title'    => 'Pimpled',
-            'version'  => 10,
+            'version'  => 11,
             'summary'  => 'Add a pimple container to the fuel, i.e. a $pimple instance api variable in your template files',
             'author'   => 'pine3ree',
             'href'     => 'https://github.com/pine3ree/Pimpled',
             'singular' => true,
-            'autoload' => true,
+            'autoload' => function () {
+                $page = wire('page');
+                return!($page instanceof Page && $page->template == 'admin');
+            },
         );
     }
 
     public function init()
     {
-        $this->addHookBefore('ProcessWire::ready', $this, 'createContainer');
+        $this->createContainer();
     }
 
-    public function createContainer(HookEvent $event)
+    public function createContainer()
     {
-        if ($this->page->template != 'admin') {
+        require_once __DIR__ . '/lib/PimpledContainer.php';
 
-            require_once __DIR__ . '/lib/PimpledContainer.php';
+        $container = new PimpledContainer($this);
 
-            $container = new PimpledContainer($this);
+        $this->wire('pimple', $container);
+        $this->wire('container', $container);
+        $this->wire('ioc', $container);
+        $this->wire('di', $container);
+        $this->wire('locator', $container);
 
-            $this->wire('pimple', $container);
-            $this->wire('container', $container);
-            $this->wire('ioc', $container);
-            $this->wire('di', $container);
-            $this->wire('locator', $container);
-        }
+        return $container;
     }
 
     public function ___install() {
 
-		if(version_compare(PHP_VERSION, '5.3.8', '<')) {
+		if (version_compare(PHP_VERSION, '5.3.8', '<')) {
 			throw new WireException("This module requires PHP 5.3.8 or newer.");
 		}
 
         $version = 100 * ProcessWire::versionMajor
-            + 010 * ProcessWire::versionMinor
-            + 001 * ProcessWire::versionRevision
+            + 10 * ProcessWire::versionMinor
+            + 1 * ProcessWire::versionRevision
         ;
 
         if($version < 250) {
