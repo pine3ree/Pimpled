@@ -1,10 +1,11 @@
 <?php
 /**
  * Pimpled
+ * 
+ * Pimple dependency injection container and service locator for ProcessWire 2.5
  *
- * Pimpled module for ProcessWire 2.5
- * Copyright (C) 2014 by Maks Feltrin - pine3ree
- *
+ * @author maks feltrin - pine3ree
+ * @copyright 2014 pine3ree
  */
 
 class Pimpled extends WireData implements Module
