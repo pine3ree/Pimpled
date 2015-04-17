@@ -14,7 +14,7 @@ class Pimpled extends WireData implements Module
     {
         return array(
             'title'    => 'Pimpled',
-            'version'  => 11,
+            'version'  => 12,
             'summary'  => 'Add a pimple container to the fuel, i.e. a $pimple instance api variable in your template files',
             'author'   => 'pine3ree',
             'href'     => 'https://github.com/pine3ree/Pimpled',
