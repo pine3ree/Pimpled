@@ -55,12 +55,12 @@ class Pimpled extends WireData implements Module
 			throw new WireException("This module requires PHP 5.3.8 or newer.");
 		}
 
-        $version = 100 * ProcessWire::versionMajor
+        $pwVersion = 100 * ProcessWire::versionMajor
             + 10 * ProcessWire::versionMinor
             + 1 * ProcessWire::versionRevision
         ;
 
-        if($version < 250) {
+        if ($pwVersion < 250) {
 			throw new WireException("This module requires ProcessWire 2.5.0 or newer.");
 		}
 	}
