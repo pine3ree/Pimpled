@@ -1,0 +1,62 @@
+<?php
+/**
+ * AdminPageIcons
+ *
+ * AdminPageIcons module for ProcessWire 2.4
+ * Copyright (C) 2014 by Maks Feltrin - pine3ree
+ *
+ */
+
+class Pimpled extends WireData implements Module
+{
+    public static function getModuleInfo()
+    {
+        return array(
+            'title'    => 'Pimpled',
+            'version'  => 10,
+            'summary'  => 'Add a pimple container to the fuel, i.e. a $pimple instance api variable in your template files',
+            'author'   => 'pine3ree',
+            'href'     => 'https://github.com/pine3ree/Pimpled',
+            'singular' => true,
+            'autoload' => true,
+        );
+    }
+
+    public function init()
+    {
+        $this->addHookBefore('ProcessWire::ready', $this, 'createContainer');
+    }
+
+    public function createContainer(HookEvent $event)
+    {
+        if ($this->page->template != 'admin') {
+
+            require_once 'lib/PimpledContainer.php';
+
+            $container = new PimpledContainer($this);
+
+            $this->wire('pimple', $container);
+            $this->wire('container', $container);
+            $this->wire('ioc', $container);
+            $this->wire('di', $container);
+            $this->wire('locator', $container);
+        }
+    }
+
+    public function ___install() {
+
+		if(version_compare(PHP_VERSION, '5.3.8', '<')) {
+			throw new WireException("This module requires PHP 5.3.8 or newer.");
+		}
+
+        $version = 100 * ProcessWire::versionMajor
+            + 010 * ProcessWire::versionMinor
+            + 001 * ProcessWire::versionRevision
+        ;
+
+        if($version < 250) {
+			throw new WireException("This module requires ProcessWire 2.5.0 or newer.");
+		}
+	}
+
+}
