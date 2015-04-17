@@ -1,7 +1,7 @@
 <?php
 /**
  * Pimpled
- * 
+ *
  * Pimple dependency injection container and service locator for ProcessWire 2.5
  *
  * @author maks feltrin - pine3ree
@@ -28,22 +28,25 @@ class Pimpled extends WireData implements Module
 
     public function init()
     {
-        $this->createContainer();
+        $this->createContainerApi();
     }
 
-    public function createContainer()
+    protected function createContainerApi()
     {
-        require_once __DIR__ . '/lib/PimpledContainer.php';
-
-        $container = new PimpledContainer($this);
+        $container = $this->createContainer();
 
         $this->wire('pimple', $container);
         $this->wire('container', $container);
         $this->wire('ioc', $container);
         $this->wire('di', $container);
         $this->wire('locator', $container);
+    }
 
-        return $container;
+    public function createContainer()
+    {
+        require_once __DIR__ . '/lib/PimpledContainer.php';
+
+        return new PimpledContainer($this);
     }
 
     public function ___install() {
