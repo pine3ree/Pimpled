@@ -31,7 +31,7 @@ class Pimpled extends WireData implements Module
     {
         if ($this->page->template != 'admin') {
 
-            require_once 'lib/PimpledContainer.php';
+            require_once __DIR__ . '/lib/PimpledContainer.php';
 
             $container = new PimpledContainer($this);
 
